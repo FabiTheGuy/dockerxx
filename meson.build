@@ -6,6 +6,8 @@ project(
 )
 
 # -------- Lib --------
+curl_dep = dependency('libcurl', fallback : ['curl'])
+
 sources = [
     'src/docker.cpp'
 ]
@@ -18,8 +20,9 @@ includes = [
 
 dockerxx = shared_library(
     'dockerxx',
-    sources: sources,
+    sources: sources + headers,
     include_directories: includes,
+    dependencies: [curl_dep],
     install : true,
 )
 
@@ -29,7 +32,7 @@ test_sources = [
     'test/main.cpp'
 ]
 
-gtest_dep = subproject('gtest').get_variable('gtest_dep')
+gtest_dep = dependency('gtest', fallback : ['gtest', 'gtest_dep'])
 
 test_executeable = executable(
     'dockerxx_test',
