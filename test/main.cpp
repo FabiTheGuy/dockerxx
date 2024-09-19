@@ -1,11 +1,5 @@
-#include <docker.hpp>
+#include "test_connection.hpp"
 #include <gtest/gtest.h>
-
-TEST(DockerConnection, PingDaemon) {
-    dockerxx::Docker docker;
-
-    ASSERT_EQ(docker.ping(), "OK");
-}
 
 int main(int argc, char **argv) {
     testing::InitGoogleTest(&argc, argv);
