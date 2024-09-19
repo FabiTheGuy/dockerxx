@@ -9,27 +9,18 @@ namespace dockerxx {
 
     class Docker {
 
-        /* Member Variables */
         private:
             CURL* m_curl = nullptr;
             bool m_remote_connection;
-            std::string m_uri;
+            std::string m_url;
 
-        /* Constructors */
+            std::string request(const std::string& path);
+            static size_t write_data(CURL* ptr, size_t size, size_t nmemb, std::string* userp);
+
         public:
             Docker();
-            explicit Docker(std::string& uri);
-
-        /* Member Functions */
-        private:
-            std::string request(const std::string& path);
-
-        public:
+            explicit Docker(std::string url);
             std::string ping();
-
-        /* Static Functions */
-        private:
-            static size_t write_data(void* ptr, size_t size, size_t nmemb, std::string* userp);
 
     };
 

@@ -7,9 +7,9 @@ using namespace dockerxx;
 /* Constructors */
 Docker::Docker() { this->m_remote_connection = false; }
 
-Docker::Docker(std::string &uri) {
+Docker::Docker(std::string url) {
     this->m_remote_connection = true;
-    this->m_uri = std::move(uri);
+    this->m_url = std::move(url);
 }
 
 /* Member functions */
@@ -24,7 +24,7 @@ std::string Docker::request(const std::string &path) {
     this->m_curl = curl_easy_init();
 
     if (this->m_remote_connection) {
-        curl_easy_setopt(this->m_curl, CURLOPT_URL, std::string(this->m_uri + path).c_str());
+        curl_easy_setopt(this->m_curl, CURLOPT_URL, std::string(this->m_url + path).c_str());
     } else {
         curl_easy_setopt(this->m_curl, CURLOPT_URL, std::string("http://localhost" + path).c_str());
         curl_easy_setopt(this->m_curl, CURLOPT_UNIX_SOCKET_PATH,
@@ -49,7 +49,7 @@ std::string Docker::request(const std::string &path) {
 std::string Docker::ping() { return request("/_ping"); }
 
 /* Static functions */
-size_t Docker::write_data(void *ptr, size_t size, size_t nmemb, std::string *userp) {
+size_t Docker::write_data(CURL *ptr, size_t size, size_t nmemb, std::string *userp) {
     size_t real_size = size * nmemb;
 
     userp->append(static_cast<char *>(ptr), real_size);
