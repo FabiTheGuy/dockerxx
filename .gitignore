@@ -1,0 +1,9 @@
+# .gitignore
+
+# Clion/
+.idea/
+
+# Meson
+buildDir/
+subprojects/packagecache
+subprojects/googletest-*
